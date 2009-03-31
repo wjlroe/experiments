@@ -95,15 +95,24 @@ convex :: Shape -> Bool
 convex (Rectangle _ _) = True
 convex (RtTriangle _ _) = True
 convex (Ellipse _ _) = True
-convex (Polygon vs) = polyConvex vs
+convex (Polygon vs) = allConvex (polyConvex vs)
 
-polyConvex :: [Vertex] -> Bool
+allConvex :: [[Float]] -> Bool
+allConvex ((angle:zs):vs) = (angle < 180) && allConvex vs
+allConvex [] = True
+
+polyConvex :: [Vertex] -> [[Float]]
 polyConvex ((x1,y1):(x2,y2):(x3,y3):vs') = 
-    (angleA < 180) && polyConvex ((x2,y2):(x3,y3):vs')
+    [angleA, a, b, c, cosA] : polyConvex ((x2,y2):(x3,y3):vs')
     where b = sqrt ((x1-x2)^2 + (y1-y2)^2)
           c = sqrt ((x2-x3)^2 + (y2-y3)^2)
           a = sqrt ((x1-x3)^2 + (y1-y3)^2)
           cosA = (b^2 + c^2 - a^2)/(2*b*c)
           angleA = degsFromRads(acos cosA)
-polyConvex _ = True
+polyConvex _ = [[]]
+
+polyOne :: [Vertex]
+polyOne = [(1,7),(6,6),(7,2)]
          
+polyTwo :: [Vertex]
+polyTwo = [(10,4),(11,8),(15,8),(15,4),(13,6),(12,1)]
