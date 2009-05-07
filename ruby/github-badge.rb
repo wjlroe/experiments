@@ -5,7 +5,5 @@ require 'uri'
 require 'json'
 
 def getUsersInfo(username)
-  Net::HTTP.get_print URI.parse("http://github.com/api/v1/json/" + username)
+  JSON.parse Net::HTTP.get(URI.parse("http://github.com/api/v1/json/" + username))
 end
-
-getUsersInfo "wjlroe"

@@ -51,7 +51,6 @@ class ModelBase {
 }
 
 class User extends ModelBase {
- 
 }
 
 /*
@@ -67,5 +66,7 @@ foreach ($users as $user) {
 //$user1 = new $user_class;
 //$user1->age = 26;
 //echo "Age is : ". $user1->age;
+
+
 
 ?>
