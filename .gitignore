@@ -5,3 +5,5 @@ Makefile~
 *.fasl~
 *.lisp~
 *~
+.DS_Store
+*.beam

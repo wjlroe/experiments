@@ -3,26 +3,26 @@ module Shape where
 import List (union, (\\), unionBy)
 import Ix (range)
 import Numeric (floatToDigits)
-   
+
 data Shape = Rectangle Side Side
            | Ellipse Radius Radius
            | RtTriangle Side Side
            | Polygon [Vertex]
              deriving Show
-    
+
 type Radius = Float
 type Side = Float
 type Vertex = (Float, Float)
 type Points = [Vertex]
 
-square :: Float -> Shape    
+square :: Float -> Shape
 square s = Rectangle s s
 circle :: Float -> Shape
 circle r = Ellipse r r
 
 rectangle :: Float -> Float -> Shape
 rectangle s1 s2 = Polygon [(0.0,0.0),(s1,0.0),(s1,s2),(0.0,s2)]
-rtTriangle :: Float -> Float -> Shape   
+rtTriangle :: Float -> Float -> Shape
 rtTriangle s1 s2 = Polygon [(0.0,0.0),(s1,0.0),(0.0,s2)]
 
 mirrorYAxis :: Vertex -> Vertex
@@ -60,9 +60,9 @@ twoDecimalPlaces :: Float -> Float
 twoDecimalPlaces x = fromInteger (round (x * 100)) / 100
 
 regularPolygon :: Int -> Side -> Shape
-regularPolygon n s = 
+regularPolygon n s =
     Polygon ([(0.0, b)] ++ (map (\p -> coords p b) (map (\j -> angle j m) (range (1, n-1)))))
-    where 
+    where
       i = ((fromIntegral(n)-2)*180)/fromIntegral(n) -- interior angle
       ir = radsFromDegs (i /2) -- half interior angle
       m = 360/fromIntegral(n) -- mid angle
@@ -99,10 +99,10 @@ convex (Polygon vs) = allConvex (polyConvex vs)
 
 allConvex :: [[Float]] -> Bool
 allConvex ((angle:zs):vs) = (angle < 180) && allConvex vs
-allConvex [] = True
+allConvex [[]] = True
 
 polyConvex :: [Vertex] -> [[Float]]
-polyConvex ((x1,y1):(x2,y2):(x3,y3):vs') = 
+polyConvex ((x1,y1):(x2,y2):(x3,y3):vs') =
     [angleA, a, b, c, cosA] : polyConvex ((x2,y2):(x3,y3):vs')
     where b = sqrt ((x1-x2)^2 + (y1-y2)^2)
           c = sqrt ((x2-x3)^2 + (y2-y3)^2)
@@ -113,6 +113,6 @@ polyConvex _ = [[]]
 
 polyOne :: [Vertex]
 polyOne = [(1,7),(6,6),(7,2)]
-         
+
 polyTwo :: [Vertex]
 polyTwo = [(10,4),(11,8),(15,8),(15,4),(13,6),(12,1)]
