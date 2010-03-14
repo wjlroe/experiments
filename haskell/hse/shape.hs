@@ -82,37 +82,37 @@ area (Polygon (v1:vs)) = polyArea vs
           polyArea _ = 0
 
 triArea :: Vertex -> Vertex -> Vertex -> Float
-triArea v1 v2 v3 = let a = distBetween v1 v2
-                       b = distBetween v2 v3
-                       c = distBetween v1 v3
+triArea v1 v2 v3 = let a = sideLength v1 v2
+                       b = sideLength v2 v3
+                       c = sideLength v1 v3
                        s = 0.5 * (a + b + c)
                    in sqrt (s*(s-a)*(s-b)*(s-c))
 
-distBetween :: Vertex -> Vertex -> Float
-distBetween (x1, y1) (x2, y2) = sqrt ((x1 - x2)^2 + (y1 - y2)^2)
+sideLength :: Vertex -> Vertex -> Float
+sideLength (x1, y1) (x2, y2) = sqrt ((x1 - x2)^2 + (y1 - y2)^2)
 
 convex :: Shape -> Bool
 convex (Rectangle _ _) = True
 convex (RtTriangle _ _) = True
 convex (Ellipse _ _) = True
-convex (Polygon vs) = allConvex (polyConvex vs)
+convex (Polygon vs) = allConvex (polyAngles vs)
 
 allConvex :: [[Float]] -> Bool
 allConvex ((angle:zs):vs) = (angle < 180) && allConvex vs
 allConvex [[]] = True
 
-polyConvex :: [Vertex] -> [[Float]]
-polyConvex ((x1,y1):(x2,y2):(x3,y3):vs') =
+polyAngles :: Polygon -> [[Float]]
+polyAngles (Polygon ((x1,y1):(x2,y2):(x3,y3):vs')) =
     [angleA, a, b, c, cosA] : polyConvex ((x2,y2):(x3,y3):vs')
-    where b = sqrt ((x1-x2)^2 + (y1-y2)^2)
-          c = sqrt ((x2-x3)^2 + (y2-y3)^2)
-          a = sqrt ((x1-x3)^2 + (y1-y3)^2)
+    where b = sideLength (x1,y1) (x2,y2)
+          c = sideLength (x2,y2) (x3,y3)
+          a = sideLength (x1,y1) (x3,y3)
           cosA = (b^2 + c^2 - a^2)/(2*b*c)
           angleA = degsFromRads(acos cosA)
-polyConvex _ = [[]]
+polyAngles _ = [[]]
 
-polyOne :: [Vertex]
-polyOne = [(1,7),(6,6),(7,2)]
+polyOne :: Shape
+polyOne = Polygon([(1,7),(6,6),(7,2)])
 
-polyTwo :: [Vertex]
-polyTwo = [(10,4),(11,8),(15,8),(15,4),(13,6),(12,1)]
+polyTwo :: Shape
+polyTwo = Polygon([(10,4),(11,8),(15,8),(15,4),(13,6),(12,1)])

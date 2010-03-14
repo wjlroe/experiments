@@ -1,0 +1,1 @@
+("4.2" (collects #"slideshow" #"main.ss") (ext collects #"slideshow" #"lang" #"reader.ss"))
