@@ -8,3 +8,4 @@ Makefile~
 .DS_Store
 *.beam
 *.app
+*.zo
