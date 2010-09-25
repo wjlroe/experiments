@@ -9,3 +9,4 @@ Makefile~
 *.beam
 *.app
 *.zo
+*.6
