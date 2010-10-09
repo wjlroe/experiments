@@ -10,3 +10,6 @@ Makefile~
 *.app
 *.zo
 *.6
+_obj
+*.out
+
