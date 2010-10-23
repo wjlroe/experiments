@@ -14,7 +14,7 @@ func main() {
 	log.Println(r)
 
 	// This doesn't
-	r, _, err := http.Get("https://streaming.campfirenow.com")
+	r, _, err = http.Get("https://streaming.campfirenow.com")
 	if err != nil {
 		log.Exit(err)
 	}
