@@ -12,4 +12,5 @@ Makefile~
 *.6
 _obj
 *.out
+*.jar 
 
