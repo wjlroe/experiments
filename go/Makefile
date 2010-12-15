@@ -1,9 +1,7 @@
 include $(GOROOT)/src/Make.inc
 
-TARG=download
-GOFILES=file.go\
-	cats.go\
-	download.go\
+TARG=https-testing
+GOFILES=https-testing.go
 
 # # build "main" executable
 # main: package
